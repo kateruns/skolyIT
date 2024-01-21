@@ -4,3 +4,6 @@ skolyIT je projekt zaměřený na scraping seznamu středních škol z https://w
 
 Cíl: 
 Získat seznam názvů a adres všech SŠ s IT zaměřením v České republice. 
+
+Význam:
+Můj první projekt do portfolia na přijímačky. 
