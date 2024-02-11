@@ -2,15 +2,20 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 
-#adresa webu
-url ="https://www.atlasskolstvi.cz/stredni-skoly?p=2&branchs=2087"
+#prázdné seznamy, budoucí sloupce
+names = []
+ads = []
 
-#request
-r = requests.get(url)
+for i in range(1,8):
+
+    #web - první stránka
+    url ="https://www.atlasskolstvi.cz/stredni-skoly?p="+str(i)+"&branchs=2087"
 
 
-#soup
-data = BeautifulSoup(r.text, 'html.parser')
+    #request
+    r = requests.get(url)
+    #soup
+    data = BeautifulSoup(r.text, 'html.parser')
 
 #print(data.prettify())
 
@@ -24,29 +29,27 @@ data = BeautifulSoup(r.text, 'html.parser')
 #       </li>
 
 
-#najít název školy na webu
-div = data.find("div", class_="leftcol")
-nazev = div.find_all('h2')
-#print(nazev)
+    #najít název školy na webu
+    div = data.find("div", class_="leftcol")
+    nazev = div.find_all('h2')
+    #print(nazev)
 
-#najít adresy
-adresa = div.find_all('article')
-print(adresa)
+    #najít adresy
+    adresa = div.find_all('article')
+    print(adresa)
 
-#uděláme z prázdného seznamu seznam názvů škol
-names = []
-for i in nazev:
-    name=i.text
-    names.append(name)
-print(names)
+    #uděláme z prázdného seznamu seznam názvů škol
+    for i in nazev:
+        name=i.text
+        names.append(name)
+    print(names)
 
 
-#uděláme z prázdného seznamu seznam adres
-ads = []
-for i in adresa:
-    ad=i.text
-    ads.append(ad)
-print(ads)
+    #uděláme z prázdného seznamu seznam adres
+    for i in adresa:
+        ad=i.text
+        ads.append(ad)
+    print(ads)
 
 #do tabulky
 table = {
@@ -54,10 +57,10 @@ table = {
   "Adresa": ads
 }
 
-df=pd.DataFrame(table, index=pd.RangeIndex(start=1, stop=21, name='ID'))
+df=pd.DataFrame(table, index=pd.RangeIndex(start=1, stop=132, name='ID'))
 print(df)
 
 
 #tabulku do excelu, doinstalovat modul openpyxl, jinak nefunguje
-df.to_excel("skolyIT.xlsx")
+df.to_excel("schoolsIT.xlsx")
 print("hotovo")
